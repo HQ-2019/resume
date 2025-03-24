@@ -139,6 +139,7 @@
             cursor: pointer; 
             object-fit: cover;
             transition: transform 0.3s;
+            background-color: #ccc;
         }
 
          .project-image-item:hover {
@@ -177,6 +178,7 @@
             cursor: pointer;
             object-fit: cover;
             transition: transform 0.3s;
+            background-color: #ccc;
         }
 
         .project-video-item:hover {
@@ -205,6 +207,176 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+
+        /* 移动端适配样式 */
+        @media screen and (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .left-column {
+                width: 100%;
+                padding: 15px;
+                text-align: center;
+            }
+
+            .right-column {
+                padding: 15px;
+            }
+
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+
+            .contact-item {
+                justify-content: center;
+                margin: 0.8rem 0;
+            }
+
+            .project-image-container {
+                max-width: 100%;
+                gap: 0.5rem;
+            }
+
+            .project-image-item {
+                width: calc(50% - 0.25rem);
+                height: 150px;
+                background-color: #ccc;
+            }
+
+            .project-video-container {
+                max-width: 100%;
+                gap: 0.5rem;
+            }
+
+            .project-video-item {
+                width: calc(50% - 0.25rem);
+                height: 150px;
+                background-color: #ccc;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            h4 {
+                font-size: 1.1rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+
+            .company-item {
+                margin-bottom: 1.2rem;
+            }
+
+            .project-item {
+                margin-bottom: 1.8rem;
+            }
+
+            .role-list {
+                margin-left: 15px;
+            }
+
+            .role-list li {
+                font-size: 0.9rem;
+                margin-bottom: 6px;
+            }
+
+            #tech-stack li {
+                font-size: 0.9rem;
+                margin-bottom: 6px;
+            }
+
+            /* 模态框适配 */
+            #img01, #video01 {
+                max-width: 95%;
+                max-height: 90%;
+            }
+
+            /* 添加导航栏 */
+            .nav-toggle {
+                display: block;
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                z-index: 1000;
+                background: #2c3e50;
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .nav-toggle i {
+                font-size: 1.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(44, 62, 80, 0.95);
+                z-index: 999;
+                padding: 20px;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                display: block;
+            }
+
+            .nav-menu ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .nav-menu li {
+                margin: 15px 0;
+            }
+
+            .nav-menu a {
+                color: white;
+                text-decoration: none;
+                font-size: 1.2rem;
+                display: block;
+                padding: 10px;
+            }
+
+            .nav-menu a:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .close-nav {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+        }
+
+        /* 隐藏移动端导航栏按钮 */
+        .nav-toggle {
+            display: none;
+        }
+
+        .nav-menu {
+            display: none;
         }
 
     </style>
@@ -748,6 +920,39 @@
             renderProjectExperience();
             const { modal, modalImg } = createModal();
             const { modal: videoModal, modalVideo } = createVideoModal();
+
+            // 添加移动端导航功能
+            const navToggle = document.createElement('div');
+            navToggle.className = 'nav-toggle';
+            navToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            document.body.appendChild(navToggle);
+
+            const navMenu = document.createElement('div');
+            navMenu.className = 'nav-menu';
+            navMenu.innerHTML = `
+                <div class="close-nav"><i class="fas fa-times"></i></div>
+                <ul>
+                    <li><a href="#tech-stack">技术栈</a></li>
+                    <li><a href="#company-experience">公司经历</a></li>
+                    <li><a href="#project-experience">项目经历</a></li>
+                </ul>
+            `;
+            document.body.appendChild(navMenu);
+
+            // 导航菜单交互
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.add('active');
+            });
+
+            navMenu.querySelector('.close-nav').addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
 
             // 打开图片模态框
             window.openModal = (src) => {
