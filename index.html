@@ -172,6 +172,55 @@
             background-color: #ccc;
         }
 
+        /* 视频缩略图样式 */
+        .project-video-item::-webkit-media-controls {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-panel {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-play-button {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-timeline {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-current-time-display {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-time-remaining-display {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-mute-button {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-volume-slider {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-fullscreen-button {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-rewind-button {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-return-to-realtime-button {
+            display: none !important;
+        }
+
+        .project-video-item::-webkit-media-controls-toggle-closed-captions-button {
+            display: none !important;
+        }
+
         .project-video-item:hover {
             transform: scale(1.05);
         }
@@ -789,9 +838,21 @@
                 const videoElement = project.videos?.length ? `
                     <h5>【视频展示】</h5>
                     <div class="project-video-container">
-                        ${project.videos.map(video => 
-                            `<video src="${video}" alt="${project.projectName}" class="project-video-item" onclick="openVideoModal('${video}')" autoplay muted loop></video>`
-                        ).join('')}
+                        ${project.videos.map(video => {
+                            return `
+                                <video 
+                                    src="${video}" 
+                                    alt="${project.projectName}" 
+                                    class="project-video-item" 
+                                    onclick="openVideoModal('${video}')" 
+                                    autoplay 
+                                    muted 
+                                    loop 
+                                    playsinline
+                                    preload="auto"
+                                ></video>
+                            `;
+                        }).join('')}
                     </div>
                 ` : '';
 
