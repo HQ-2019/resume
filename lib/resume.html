@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级 iOS 开发工程师简历</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            background-color: #f4f4f4;
+        } */
+
+        * {
+            margin: 0;
+            padding:0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: row;
+            margin: 0;
+        }
+
+        .left-column {
+            width: 280px;
+            /* background-color: #333; */
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: block;
+            object-fit: cover;
+        }
+
+        .contact-item {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-item i {
+            margin-right: 1rem;
+            width: 20px;
+        }
+
+        .right-column {
+            flex: 1;
+            padding: 20px;
+            color: #3e668e;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        h2 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            margin-bottom: 8px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: #636262;
+            margin-bottom: 8px;
+            max-width: 800px;
+        }
+
+        #tech-stack {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding: 0;
+        }
+
+        #tech-stack li {
+            color: #636262;
+        }
+
+        .company-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .company-name {
+            color: #3e668e;
+            font-weight: 600;
+        }
+
+        .company-size {
+            color: #636262;
+            font-weight: normal;
+            font-size: 0.8em;
+        }
+
+        .project-item {
+            margin-bottom: 2.5rem;
+        }
+
+        .project-image-container {
+            display: flex;
+            max-width: 70%;
+            gap: 1rem;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+            /* overflow-x: scroll; */
+            /* white-space: nowrap; */
+        }
+
+        .project-image-item {
+            width: 150px;
+            height: 200px;
+            border-radius: 8px;
+            cursor: pointer; 
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+         .project-image-item:hover {
+            transform: scale(1.05);
+         } 
+
+        .role-list {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding: 0;
+        }
+
+        .role-list li {
+            color: #636262;
+            margin-bottom: 8px;
+        }
+
+        h4 {
+            color: #3e668e;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .project-video-container {
+            display: flex;
+            max-width: 70%;
+            gap: 1rem;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .project-video-item {
+            width: 150px;
+            height: 200px;
+            border-radius: 8px;
+            cursor: pointer;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .project-video-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* 视频模态框样式 */
+        #videoModal {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        #video01 {
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- 左侧信息 -->
+    <div class="left-column" id="left-column">
+        <!-- 个人基本信息 -->
+    </div>
+    <!-- 右侧主要内容 -->
+    <div class="right-column" id="right-column">
+        <div class="section">
+            <h2>技术栈</h2>
+            <ul id="tech-stack" class="tech-stack"></ul>
+        </div>
+        <div class="section">
+            <h2>公司经历</h2>
+            <ul id="company-experience"></ul>
+        </div>
+        <div class="section">
+            <h2>项目经历</h2>
+            <ul id="project-experience"></ul>
+        </div>
+    </div>
+
+    <script>
+        // 数据部分 ------------------------------------------------------------    
+        
+        // 个人信息 
+        const personalInfo = {
+            name: "黄群",
+            sex: "男",
+            age: 37,
+            position: "12年iOS开发经验",
+            avatar: "https://github.com/HQ-2019/resume/raw/main/lib/image/avatar.jpg",
+            phone: "18600211168", 
+            weixin: "willn1987",
+            email: "hq.da-520@163.com",
+            school: "南昌理工学院",
+        }
+
+        // 技术栈
+        const techStack = [
+            "精通Objective-C、Swift，熟悉Java、Dart、Shell等多种开发语言；",
+            "熟练运用Xcode、Git、Charles、Instruments、IntelliJ IDEA、Android Studio等开发调试工具；",
+            "熟悉多种软件架构模式如 MVC、MVVM、VIPER，并能熟练运用于项目架构和组件化的设计；",
+            "深入了解内存管理、Runtime、Runloop、多线程、数据持久化、TCP/IP 协议、HTTP(s) 协议等编程技术，擅长性能优化和提升用户体验；",
+            "熟悉面向对象编程、链式编程、函数式编程、响应式编程等编程范式；",
+            "熟练使用Flutter开发iOS和Android应用，有Flutter与原生项目混合开发经验；",
+            "掌握APP原生与Web间的通信，了解Hybrid应用的交互方式；",
+            "熟练使用常用三方框架，具备使用 CocoaPods 私有库发布和维护组件库的能力；",
+            "具备SDK和组件化开发经验，拥有音视频、即时通讯项目架构经验；",
+            "具备Java服务器项目开发经验，熟练使用Mysql、Redis、MongoDB等数据库；",
+            "具备敏捷开发经验，熟悉敏捷开发流程和常用工具；",
+            "主导过多款大型APP的开发，能够独立开发应用并上架App Store；",
+            "有海外项目经验，熟练使用海外项目常用库，如Firebase系列;",
+            "具备良好的团队沟通协调能力，拥有10人左右大前端团队3年管理经验；"
+        ];
+
+        // 公司经历
+        const companyExperience = [
+            {
+                company: "北京骁鲨科技有限公司",
+                size: "20-99人",
+                duration: "2024.07 - 2024.11",
+                position: "Flutter开发工程师",
+                projects: "AiMagic、AiTattoo、QuillAi、QuizzleAi。(出海项目)",
+                description: [
+                    "负责AI产品矩阵中工具类APP的设计研发及迭代。",
+                    "调研技术难点设计技术实现方案。"
+                ]
+            },
+            {
+                company: "Everest Ventures Group (香港EVG)", 
+                size: "100-150人",
+                duration: "2022.9 - 2024.05",
+                position: "高级iOS开发工程师 (移动端团队技术负责人)",
+                projects: "Cassava Network (出海项目)",
+                description: [
+                    "独立负责Cassava Network项目的iOS端开发上架和需求迭代。",
+                    "作为移动端团队技术负责人，协调多端合作，定制文档并推动组件库的实施。",
+                    "与第三方合作团队就技术集成方案进行沟通协作，确保项目的技术可行性和持续优化。"
+                ]
+            },
+            {
+                company: "北京摩点会想科技有限公司",
+                size: "100-150人",
+                duration: "2020.7 - 2022.6",
+                position: "高级iOS开发工程师",
+                projects: "摩点",
+                description: [
+                    "担任社区业务移动端技术leader，负责社区和电商业务的技术规划和执行以及Flutter跨端的实现。",
+                    "管理项目组件库的开发和维护，以提高应用稳定性和性能。",
+                    "领导团队进行前沿技术研究，制定项目开发标准和最佳实践。"
+                ]
+            },
+            {
+                company: "凡普金科企业发展（上海）有限公司",
+                size: "2000人以上",
+                duration: "2014.12 - 2020.2",
+                position: "iOS主程 (大前端团队技术负责人)",
+                projects: "爱钱进、钱站、两个狒狒、月光侠、爱白条、凡普信、小凡 OA 、银河钢铁侠、古钱币、凡普BI 、狒狒好借、狒记不可、速借钱包、爱白帮、随时贷、月光侠计划、月光侠管钱…",
+                description: [
+                    "主导多个主要iOS APP的全周期开发，包括架构设计、团队协作和项目交付。",
+                    "负责探索新技术及落地实施方案，如Swift/SwiftUI/Flutter等。",
+                    "管理组件库的开发和维护，定制各平台交互的标准文档，确保跨平台应用的一致性和可维护性。",
+                    "负责部分JAVA服务器项目的开发，协调移动端团队的技术发展和人才培养。"
+                ]
+            },
+            {
+                company: "北京志荣维拓科技有限公司",
+                size: "50-100人",
+                duration: "2012.11 - 2014.12",
+                position: "iOS开发工程师",
+                projects: "百闻、找你呐",
+                description: [
+                    "主导iOS项目开发，分配开发任务。",
+                    "负责调研开发即时通讯IM技术、音视频技术、地图技术等核心内容。"
+                ]
+            },
+            {
+                company: "爱的蜜吻科技（北京）有限公司",
+                size: "50人以下",
+                duration: "2011.10 - 2012.11",
+                position: "UI设计师转iOS开发",
+                projects: "",
+                description: [
+                    "负责公司官网、淘宝店铺以及线上活动的UI设计和用户体验优化。",
+                    "后来转iOS开发岗参与项目开发工作。"
+                ]
+            }
+        ];
+
+        // 项目经历 
+        const projectExperience = [
+            {
+                projectName: "AiMagic (Flutter)",
+                duration: "2024.07 - 2024.11",
+                description: "AiMagic、AiTattoo、QuillAi、QuizzleAi是公司AI产品矩阵中的四款工具类APP，以文生图、图生图、图生视频、问答等方式实现了AI换装、AI图转视频、AI纹身、AI教育解题、AI聊天等功能。",
+                role: [
+                    "负责项目搭建和业务需求迭代，使用Flutter进行多端APP开发。",
+                    "封装应用内购、广告(Max/TopOn聚和广告)等公共组件。",
+                    "解决复杂文案展示（AI解题包含的复杂数据公式的展示）。",
+                    "实现复杂图片动效，调研FFmpeg完成视频编辑、合成。",
+                    "封装Flutter和原生通信业务组件。"
+                ],
+                videos: [],
+                images: [
+                    "image/IMG_21.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_12.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_14.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_15.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_16.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_17.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_18.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_19.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_20.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_1.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_2.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_3.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_4.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_5.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_6.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_7.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_8.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_9.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_10.WEBP",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_11.WEBP",
+                ]
+            },
+            {
+                projectName: "Cassava Network (Swift+Flutter)",
+                duration: "2022.09 - 2024.05",
+                description: "Cassava network是一款专注于非洲用户的Web3项目，涵盖了社区、任务、挖矿、资产钱包、区块链钱包、Avatar捏脸、走步运动、答题等主要业务模块。用户可通过APP完成任务以获取CB奖励，CB奖励可用于Avatar(NFT)的合成和Mint、加密货币兑换、盲盒购买、挖矿消耗、NFT交易等。",                   
+                role: [
+                    "独立负责项目搭建和迭代升级，主要使用Swift语言，部分采用Flutter。",
+                    "开发多端公共组件，定制文档，包括路由、JS交互、Flutter交互等，提高开发效率和一致性。",
+                    "调研web3库，实现区块链智能合约交互功能，完成NFT铸造和加密货币资产交易。",
+                    "集成第三方社媒登录授权，如Twitter、Telegram、Discord、Facebook、Google、Apple等。",
+                    "调研和集成第三方钱包授权，如Unipass、WalletConnect、Phantom、Worldcoin等。",
+                    "使用Firebase系列库进行数据分析、crash日志收集和消息推送等。",
+                    "调研并集成Google的广告和人机验证功能，提升用户体验。",
+                    "混合跨平台Flutter技术，开发公共业务如圈子模块功能等。"
+                ],
+                videos: [
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/RPReplay_44_1.MP4",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/RPReplay_44_2.MP4",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/RPReplay_44_3.MP4",
+                ],
+                images: [
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_1.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_2.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_3.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_4.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_5.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_6.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_7.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_8.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_9.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_10.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_44_11.PNG",
+                ]
+            },
+            {
+                projectName: "摩点 (OC+SwiftUI+Flutter)",
+                duration: "2020.07 - 2022.06",
+                description: "摩点是一家致力于文化创意领域的众筹社区，通过帮助创作者募集资金，找到支持者，实现创意的转化。APP包含众筹、电商和社区三大主要板块。",                   
+                role: [
+                    "负责社区和电商业务的需求开发，包括短视频录制发布、播放和电商功能。",
+                    "着重于APP的稳定性维护和性能优化，修复线上Crash并将崩溃率从3%降低至0.01%。",
+                    "主导项目架构重构方案的制定和执行，定制开发文档以规范团队代码。",
+                    "调研Flutter跨平台技术并在早鸟、电商业务中使用。保持对iOS前沿技术的调研和应用，如苹果的SharePlay、SwiftUI、Widget等技术。"
+                ],
+                videos: [
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/RPReplay_55_1.MP4",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/RPReplay_55_2.MP4",
+                ],
+                images: [
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_1.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_2.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_3.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_4.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_5.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_6.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_7.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_8.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_9.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_10.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_11.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_12.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_13.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_14.PNG",
+                    "https://github.com/HQ-2019/resume/raw/main/lib/image/IMG_55_15.PNG",
+                ]
+            },
+            {
+                projectName: "两个狒狒 (OC)",
+                duration: "2018.03 - 2020.02",
+                description: "两个狒狒是一款为用户提供金融服务的APP，通过智能系统为用户个性化推荐金融产品。 项目涵盖了贷款、理财、信用卡、资讯、用户中心、还款等主要业务模块。",                   
+                role: [
+                    "独立构建项目，采用VIPER架构，并在此基础上进行扩展设计。",
+                    "封装网络交互框架，提供便捷的网络请求接口。",
+                    "基于JavaScriptCore技术封装原生与web的通信框架，为Web提供如获取通讯录、获取定位、获取Cookie、获取设备信息、获取相册、获取用户信息、登录、刷新导航等功能。",
+                    "设计URL Scheme统一跳转协议框架，应对项目中的灵活路由需求。",
+                    "基于AOP和Runtime技术，封装可配置化的埋点框架，实现数据统计功能。",
+                    "使用shell制作批量修注入渠道号和重签名工具，以及其他技术如Masonry、AFNetworking、SDWebImage、AddressBook、CoreLocation、AES128、lottie、Moxie、ocr等。"
+                ],
+                videos: [],
+                images: []
+            },
+            {
+                projectName: "月光侠 (OC)",
+                duration: "2018.07 - 2020.01",
+                description: "月光侠是一款专注于提供短期借贷服务的APP，为用户提供简便的小额资金周转解决方案，无需抵押即可完成授信。主要功能涵盖用户中心、借款申请、订单状态跟踪、还款功能以及资讯等模块。",                   
+                role: [
+                    "从零开始独立搭建项目，负责MVC到VIPER架构的项目重构，提升了系统的稳定性和可维护性。",
+                    "主要负责首页推荐、借款流程和还款流程等核心业务功能的开发，保证了用户体验的流畅性。",
+                    "开发无侵入埋点框架、UI组件库、路由组件库、基础库等公共组件，通过Cocoapods私有库进行发布，提高团队的开发效率和代码质量。",
+                    "参与月光侠JAVA服务器系统的开发（如用户中心、借款进件、指标计算等系统的编码工作）。使用Spring Boot、MyBatis、Mysql、Redis、MongoDB、Kafka等技术。"
+                ],
+                videos: [],
+                images: []
+            },
+            {
+                projectName: "小凡OA (OC+H5)",
+                duration: "2017.05 - 2017.11",
+                description: "小凡OA是一款为企业内部员工提供便捷移动办公服务的APP，支持考勤打卡、请假调休、流程审批、入职离职手续办理、人员晋升、会议室预约、会议指引、工位分布、读书借阅、公司论坛问答等多种功能。",                   
+                role: [
+                    "APP为Hybrid混合型项目，通过JavaScriptCore封装APP原生与Web的交互组件库，提升了用户体验和操作便捷性。",
+                    "独立负责iOS项目开发，参与部分Node管理后台和JAVA服务器的开发，确保了系统的整体稳定性和功能完整性。",
+                    "主导进行系统服务拆分，编写关键功能如考勤打卡系统、门禁卡数据同步、请休假系统等。使用Spring Boot、Mybatis、Mysql、Redis等技术栈。",
+                    "使用Jmeter进行接口的高并发性能测试，保障系统的可靠性和响应速度。"
+                ],
+                videos: [],
+                images: []
+            },
+            {
+                projectName: "爱钱进 (OC)",
+                duration: "2014.12 - 2015.06",
+                description: "爱钱进是一家业内知名的网络借贷信息中介平台，为用户提供投资回报服务。",                   
+                role: [
+                    "主导SQLite数据库交互重构，简化了数据库操作流程，提升了系统的效率和可维护性。",
+                    "将旧的MRC项目重构为ARC，改善了内存管理和性能表现。",
+                    "针对启动过程进行一系列优化，提高了系统的启动速度和响应性。"
+                ],
+                videos: [],
+                images: []
+            },
+            {
+                projectName: "找你呐 (OC)",
+                duration: "2014.01 - 2014.12",
+                description: "找你呐是一款基于位置共享的语音社交软件，致力于提供用户群组之间的实时语音交流和位置信息共享。",                   
+                role: [
+                    "独立开发项目，采用MVC架构设计，确保代码的结构清晰和易于维护。",
+                    "深入研究XMPP即时通讯技术，实现用户的登录登出、好友列表管理、好友登录状态监听以及实时语音单点聊天和多人聊天室功能。",
+                    "基于AudioToolbox和lame框架，封装音频录制组件，实现边录制边转码压缩，将PCM编码的音频转换成MP3格式，同时使用AVAudioPlayer进行音频播放。",
+                    "利用BaiduMapSDK展示好友位置信息，并在地图上个性化定制好友头像，实现好友路径的绘制。",
+                    "使用的技术包括XMPP、lame、AudioToolbox、AVFoundation、ASIHTTPRequest、JSONKit、SDWebImage、BaiduMapSDK等。"
+                ],
+                videos: [],
+                images: []
+            },
+            {
+                projectName: "百闻 (OC)",
+                duration: "2012.11 - 2014.12",
+                description: "百闻是全国首家信息交易的安全手机应用软件，旨在为用户提供一个安全、可信赖的信息交易平台，实现信息的流通和价值的转化。",                   
+                role: [
+                    "负责项目抽屉式UI架构的搭建，编写了首页不规则九宫格标签、信息发布、消息付费查看、好友列表管理等模块的业务代码，确保了用户界面的友好性和易用性。",
+                    "使用ASIHTTPRequest、JSONKit、SDWebImage、Reachability等技术，实现与服务器的数据交互和图片的异步加载，提高了应用的性能和用户体验。",
+                    "采用PPRevealSideViewController实现抽屉式的用户界面，结合ShareSDK和百度统计等工具，完善了应用的社交分享和数据分析功能。",
+                    "使用地理位置编译等技术，为用户提供了定位服务，并在地图上展示了信息发布者的位置，增强了信息的可信度和交易的安全性。"
+                ],
+                videos: [],
+                images: []
+            }
+        ];
+
+
+        // UI渲染 ------------------------------------------------------------
+
+        // 工具函数
+        const createElement = (tag, className = '', content = '', attributes = {}) => {
+            if (!tag) throw new Error('Tag is required');
+            const element = document.createElement(tag);
+            if (content) element.innerHTML = content;
+            if (className) element.className = className;
+            if (typeof attributes === 'object') {
+                Object.entries(attributes).forEach(([key, value]) => {
+                    element[key] = value;
+                });
+            }
+            return element;
+        };
+
+        // 渲染个人信息函数
+        const renderPersonalInfo = () => {
+            const leftColumn = document.getElementById('left-column');
+            
+            const contactItems = [
+                { icon: 'fab fa-weixin', value: personalInfo.weixin },
+                { icon: 'fas fa-envelope', value: personalInfo.email }, 
+                { icon: 'fas fa-school', value: personalInfo.school } 
+            ];
+
+            const avatarElement = personalInfo.avatar ? `<img src="${personalInfo.avatar}" alt="头像" class="avatar">` : '';
+            const nameElement = `
+                <h2 style="text-align: center; margin-bottom: 0; text-decoration: none; border-bottom: none;">${personalInfo.name}</h2>
+                <p style="text-align: center; color: #f0f0f0; margin-bottom: 0.5rem;">${personalInfo.position}</p>
+                <div style="width: 100%; height: 0.5px; background: #f0f0f0; margin: 1.5rem auto;"></div>
+            `;
+            const contactElements = contactItems
+                .map(({ icon, value }) => `
+                    <div class="contact-item">
+                        <i class="${icon}"></i>
+                        ${value}
+                    </div>
+                `)
+                .join('');
+
+            leftColumn.innerHTML = `
+                ${avatarElement}
+                ${nameElement}
+                ${contactElements}
+            `;
+        };
+
+        // 渲染技术栈函数
+        const renderTechStack = () => {
+            const techStackList = document.getElementById('tech-stack');
+            techStack.forEach(tech => {
+                const li = createElement('li', '', tech);
+                techStackList.appendChild(li);
+            });
+        };
+
+        // 渲染公司经历函数 
+        const renderCompanyExperience = () => {
+            const companyList = document.getElementById('company-experience');
+            companyExperience.forEach(({ company, size, position, duration, description, projects }) => {
+
+                const projectsElement = projects?.length > 0
+                    ? `<p>【主要APP】: ${projects}</p>`
+                    : '';
+
+                const descriptionElement = description?.length > 0
+                    ? `<ul class="role-list">${description.map(text => `<li>${text}</li>`).join('')}</ul>`
+                    : '';
+
+                const li = createElement('li', 'company-item', `
+                    <h3>
+                        <span class="company-name">${company}</span>
+                        <span class="company-name">(${duration})</span>
+                        <span class="company-size">(${size})</span>
+                    </h3>
+                    <p>【职位】: ${position}</p>
+                    ${projectsElement}
+                    ${descriptionElement}
+                `);
+                companyList.appendChild(li);
+            });
+        };
+
+        // 渲染项目经历函数
+        const renderProjectExperience = () => {
+            const projectList = document.getElementById('project-experience');
+            projectExperience.forEach(project => {
+                const videoElement = project.videos?.length ? `
+                    <h5>【视频展示】</h5>
+                    <div class="project-video-container">
+                        ${project.videos.map(video => 
+                            `<video src="${video}" alt="${project.projectName}" class="project-video-item" onclick="openVideoModal('${video}')" autoplay muted loop></video>`
+                        ).join('')}
+                    </div>
+                ` : '';
+
+                const imageElement = project.images?.length ? `
+                    <h5>【图片展示】</h5>
+                    <div class="project-image-container">
+                        ${project.images.map(image => 
+                            `<img src="${image}" alt="${project.projectName}" class="project-image-item" onclick="openModal('${image}')">`
+                        ).join('')}
+                    </div>
+                ` : '';
+
+                const roleElement = project.role?.length ? `
+                    <ul class="role-list">
+                        ${project.role.map(text => 
+                            `<li>${text}</li>`
+                        ).join('')}
+                    </ul>
+                ` : '';
+
+                const li = createElement('li', 'project-item', `
+                    <h3>${project.projectName}（${project.duration}）</h3>
+                    <p>${project.description}</p>
+                    <p>工作内容:</p>
+                    ${roleElement}
+                    ${videoElement}
+                    ${imageElement}
+                `);
+                projectList.appendChild(li);
+            });
+        };
+
+        // 创建图片模态框
+        const createModal = () => {
+            const modal = createElement('div', '', '', {
+                id: 'myModal',
+                style: `
+                    display: none;
+                    position: fixed;
+                    z-index: 1;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow: auto;
+                    background-color: rgba(0,0,0,0.9);
+                `
+            });
+
+            const modalImg = createElement('img', '', '', {
+                id: 'img01',
+                style: `
+                    display: block;
+                    max-width: 80%;
+                    max-height: 80%;
+                    margin: auto;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                `
+            });
+
+            modal.appendChild(modalImg);
+            document.body.appendChild(modal);
+
+            // 关闭图片模态框
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            return { modal, modalImg };
+        };
+
+        // 创建视频模态框
+        const createVideoModal = () => {
+            const modal = createElement('div', '', '', {
+                id: 'videoModal',
+                style: `
+                    display: none;
+                    position: fixed;
+                    z-index: 2;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow: auto;
+                    background-color: rgba(0,0,0,0.9);
+                `
+            });
+
+            const modalVideo = createElement('video', '', '', {
+                id: 'video01',
+                controls: true,
+                style: `
+                    display: block;
+                    max-width: 80%;
+                    max-height: 80%;
+                    margin: auto;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                `
+            });
+
+            modal.appendChild(modalVideo);
+            document.body.appendChild(modal);
+
+            // 关闭视频模态框
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    modalVideo.pause();
+                }
+            });
+
+            return { modal, modalVideo };
+        };
+
+        // 初始化函数
+        const init = () => {
+            renderPersonalInfo();
+            renderTechStack();
+            renderCompanyExperience();
+            renderProjectExperience();
+            const { modal, modalImg } = createModal();
+            const { modal: videoModal, modalVideo } = createVideoModal();
+
+            // 打开图片模态框
+            window.openModal = (src) => {
+                modal.style.display = 'block';
+                modalImg.src = src;
+            };
+
+            // 打开视频模态框
+            window.openVideoModal = (src) => {
+                videoModal.style.display = 'block';
+                modalVideo.src = src;
+                modalVideo.play();
+            };
+        };
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+
+</html>
