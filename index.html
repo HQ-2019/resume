@@ -7,15 +7,6 @@
     <title>高级 iOS 开发工程师简历</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: row;
-            background-color: #f4f4f4;
-        } */
-
         * {
             margin: 0;
             padding:0;
@@ -303,22 +294,24 @@
                 max-height: 90%;
             }
 
-            /* 添加导航栏 */
+            /* 导航栏样式 */
             .nav-toggle {
-                display: block;
+                display: block !important; /* 强制显示 */
                 position: fixed;
-                top: 10px;
-                right: 10px;
-                z-index: 1000;
+                top: 15px;
+                right: 15px;
+                z-index: 1001; /* 提高层级 */
                 background: #2c3e50;
                 color: white;
-                padding: 10px;
+                padding: 12px;
                 border-radius: 5px;
                 cursor: pointer;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             }
 
             .nav-toggle i {
                 font-size: 1.5rem;
+                display: block;
             }
 
             .nav-menu {
@@ -328,20 +321,20 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(44, 62, 80, 0.95);
-                z-index: 999;
+                background: rgba(44, 62, 80, 0.98);
+                z-index: 1000;
                 padding: 20px;
                 overflow-y: auto;
             }
 
             .nav-menu.active {
-                display: block;
+                display: block !important; /* 强制显示 */
             }
 
             .nav-menu ul {
                 list-style: none;
                 padding: 0;
-                margin: 0;
+                margin: 60px 0 0 0; /* 为顶部关闭按钮留出空间 */
             }
 
             .nav-menu li {
@@ -353,7 +346,9 @@
                 text-decoration: none;
                 font-size: 1.2rem;
                 display: block;
-                padding: 10px;
+                padding: 15px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
             }
 
             .nav-menu a:hover {
@@ -361,16 +356,23 @@
             }
 
             .close-nav {
-                position: absolute;
-                top: 10px;
-                right: 10px;
+                position: fixed;
+                top: 15px;
+                right: 15px;
                 color: white;
                 font-size: 1.5rem;
                 cursor: pointer;
+                z-index: 1002;
+                padding: 12px;
+                background: transparent;
+            }
+
+            .close-nav i {
+                display: block;
             }
         }
 
-        /* 隐藏移动端导航栏按钮 */
+        /* 默认隐藏导航栏按钮 */
         .nav-toggle {
             display: none;
         }
@@ -413,7 +415,7 @@
             age: 37,
             position: "12年iOS开发经验",
             avatar: "image/avatar.jpg",
-            phone: "18600211168", 
+            phone: "", 
             weixin: "willn1987",
             email: "hq.da-520@163.com",
             school: "南昌理工学院",
@@ -940,18 +942,28 @@
             document.body.appendChild(navMenu);
 
             // 导航菜单交互
-            navToggle.addEventListener('click', () => {
+            navToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
                 navMenu.classList.add('active');
             });
 
-            navMenu.querySelector('.close-nav').addEventListener('click', () => {
+            navMenu.querySelector('.close-nav').addEventListener('click', (e) => {
+                e.stopPropagation();
                 navMenu.classList.remove('active');
             });
 
             navMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
+                link.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     navMenu.classList.remove('active');
                 });
+            });
+
+            // 点击导航菜单外部关闭菜单
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                }
             });
 
             // 打开图片模态框
