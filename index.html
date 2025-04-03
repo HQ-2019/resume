@@ -883,7 +883,11 @@
                 `
             });
 
+            const {prevBtn, nextBtn} = createPreviewMediaControlBtns();
+
             modal.appendChild(modalImg);
+            modal.appendChild(prevBtn);
+            modal.appendChild(nextBtn);
             document.body.appendChild(modal);
 
             // 关闭图片模态框
@@ -893,7 +897,7 @@
                 }
             });
 
-            return { modal, modalImg };
+            return { modal, modalImg, prevBtn, nextBtn };
         };
 
         // 创建视频模态框
@@ -928,7 +932,11 @@
                 `
             });
 
+            const {prevBtn, nextBtn} = createPreviewMediaControlBtns();
+
             modal.appendChild(modalVideo);
+            modal.appendChild(prevBtn);
+            modal.appendChild(nextBtn);
             document.body.appendChild(modal);
 
             // 关闭视频模态框
@@ -939,8 +947,38 @@
                 }
             });
 
-            return { modal, modalVideo };
+            return { modal, modalVideo, prevBtn, nextBtn };
         };
+
+        const createPreviewMediaControlBtns = () => {
+            // 上一个按钮
+            const prevBtn = createElement('div', 'nav-btn prev-btn', '<', {
+                style: `
+                    position: absolute;
+                    top: 50%;
+                    left: 5%;
+                    color: white;
+                    font-size: 3rem;
+                    cursor: pointer;
+                    user-select: none;
+                `
+            });
+            
+            // 下一个按钮
+            const nextBtn = createElement('div', 'nav-btn next-btn', '>', {
+                style: `
+                    position: absolute;
+                    top: 50%;
+                    right: 5%;
+                    color: white;
+                    font-size: 3rem;
+                    cursor: pointer;
+                    user-select: none;
+                `
+            });
+
+            return { prevBtn, nextBtn };
+        }
 
         // 初始化函数
         const init = () => {
@@ -948,8 +986,6 @@
             renderTechStack();
             renderCompanyExperience();
             renderProjectExperience();
-            const { modal, modalImg } = createModal();
-            const { modal: videoModal, modalVideo } = createVideoModal();
 
             // 添加移动端导航功能
             const navToggle = document.createElement('div');
@@ -969,7 +1005,7 @@
             `;
             document.body.appendChild(navMenu);
 
-            // 导航菜单交互
+            // 移动端导航菜单交互
             navToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
                 navMenu.classList.add('active');
@@ -994,17 +1030,85 @@
                 }
             });
 
+            // 创建图片和视频模态框（查看大图）
+            const { modal, modalImg, prevBtn: imgPrevBtn, nextBtn: imgNextBtn } = createModal();
+            const { modal: videoModal, modalVideo, prevBtn: videoPrevBtn, nextBtn: videoNextBtn } = createVideoModal();
+
             // 打开图片模态框
             window.openModal = (src) => {
-                modal.style.display = 'block';
-                modalImg.src = src;
+                const project = projectExperience.find(p => p.images.includes(src));
+                if (project) {
+                    currentMediaList = project.images;
+                    currentMediaIndex = project.images.indexOf(src);
+                    currentModal = 'image';
+                    currentMediaElement = modalImg;
+                    
+                    modal.style.display = 'block';
+                    modalImg.src = src;
+
+                    imgPrevBtn.style.display = currentMediaIndex === 0 ? 'none' : 'block';
+                    imgNextBtn.style.display = currentMediaIndex === currentMediaList.length - 1 ? 'none' : 'block';
+                }
             };
 
             // 打开视频模态框
             window.openVideoModal = (src) => {
-                videoModal.style.display = 'block';
-                modalVideo.src = src;
-                modalVideo.play();
+                const project = projectExperience.find(p => p.videos.includes(src));
+                if (project) {
+                    currentMediaList = project.videos;
+                    currentMediaIndex = project.videos.indexOf(src);
+                    currentModal = 'video';
+                    currentMediaElement = modalVideo;
+                    
+                    videoModal.style.display = 'block';
+                    modalVideo.src = src;
+                    modalVideo.play();
+
+                    videoPrevBtn.style.display = currentMediaIndex === 0 ? 'none' : 'block';
+                    videoNextBtn.style.display = currentMediaIndex === currentMediaList.length - 1 ? 'none' : 'block';
+                }
+            };
+
+            // 图片导航事件
+            imgPrevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateMedia('prev');
+            });
+            
+            imgNextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateMedia('next');
+            });
+
+            // 视频导航事件
+            videoPrevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateMedia('prev');
+            });
+            
+            videoNextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateMedia('next');
+            });
+            
+            // 导航函数
+            const navigateMedia = (direction) => {
+                if (direction === 'prev') {
+                    currentMediaIndex = (currentMediaIndex - 1 + currentMediaList.length) % currentMediaList.length;
+                } else {
+                    currentMediaIndex = (currentMediaIndex + 1) % currentMediaList.length;
+                }
+                
+                if (currentModal === 'image') {
+                    modalImg.src = currentMediaList[currentMediaIndex];
+                    imgPrevBtn.style.display = currentMediaIndex === 0 ? 'none' : 'block';
+                    imgNextBtn.style.display = currentMediaIndex === currentMediaList.length - 1 ? 'none' : 'block';
+                } else {
+                    modalVideo.src = currentMediaList[currentMediaIndex];
+                    modalVideo.play();
+                    videoPrevBtn.style.display = currentMediaIndex === 0 ? 'none' : 'block';
+                    videoNextBtn.style.display = currentMediaIndex === currentMediaList.length - 1 ? 'none' : 'block';
+                }
             };
         };
 
